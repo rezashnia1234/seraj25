@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	
+    <title></title>
+	
+	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<link rel="stylesheet" type="text/css" href="css/font.css" />
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+    
+	<script src="js/jquery-1.11.3.min.js"></script>
+    <!--<script src="phonegap.js"></script>-->
+    <script src="js/fastclick.js"></script>
+	<script src="js/scale-with.js"></script>
+    <script src="js/back_btn.js"></script>
+    <script src="js/validation.js"></script>
+    <script src="js/hammer.min.js"></script>
+
+
+
+    <!-- jQuery (required) & jQuery UI + theme (optional) -->
+  	<link href="docs/css/jquery-ui.min.css" rel="stylesheet">
+  	<script src="docs/js/jquery-ui.min.js"></script>
+  	<script src="docs/js/jquery-migrate-1.3.0.min.js"></script>
+
+  	<!-- keyboard widget css & script (required) -->
+  	<link href="css/keyboard.css" rel="stylesheet">
+  	<script src="js/jquery.keyboard.js"></script>
+
+  	<!-- keyboard extensions (optional) 
+  	<script src="js/jquery.mousewheel.js"></script>
+  	<script src="js/jquery.keyboard.extension-typing.js"></script>
+  	<script src="js/jquery.keyboard.extension-autocomplete.js"></script>
+  	<script src="js/jquery.keyboard.extension-caret.js"></script>
+	-->
+    <script>
+    
+    
+  		$(function(){
+        jQuery.keyboard.layouts['Persian'] = {
+        	'name': 'Persian (Farsi)',
+        	'lang': ['fa'],
+        	'normal': [
+        		'~ \u06f1 \u06f2 \u06f3 \u06f4 \u06f5 \u06f6 \u06f7 \u06f8 \u06f9 \u06f0 - = {bksp}',
+        		' \u0636 \u0635 \u062b \u0642 \u0641 \u063a \u0639 \u0647 \u062e \u062d \u062c \u0686 \u067e',
+        		'{lock} \u0634 \u0633 \u06cc \u0628 \u0644 \u0627 \u062a \u0646 \u0645 \u0643 \u06af {accept}',
+        		'{shift} \u0638 \u0637 \u0632 \u0698 \u0631 \u0630 \u062f \u0678 \u0648 . \u061f {shift}',
+        		'{cancel} {space} {cancel}'
+        	],
+        	'shift': [
+        		'\u00a9 \u0021 \u0040 \u0023 \u0024 \u0025 \u005e \u0026 \u002a \u0028 \u0029 \u005f \u002b {bksp}',
+        		' \u064b \u064c \u064d \u00ae \u060c \u061b \u002c \u005d \u005b \u007d \u007b \u00d7 \u00b1',
+        		'{lock} \u064e \u064f \u0650 \u0651 \u06c0 \u0622 \u0640 \u00ab \u00bb : " {accept}',
+        		'{shift} \u0629 \u064a \u00b0 \u0624 \u0625 \u0623 \u0621 \u003c \u003e \u00a6 \u00f7 {shift}',
+        		'{cancel} {space}  {cancel}'
+        	],
+        	'alt': [
+        		'` 1 2 3 4 5 6 7 8 9 0 - = {bksp}',
+        		' q w e r t y u i o p [ ] \\',
+        		'{lock} a s d f g h j k l ; \' ',
+        		'{shift} z x c v b n m , . / {shift}',
+        		'{cancel} {space}  {cancel}'
+        	],
+        	'alt-shift': [
+        		'~ ! @ # $ % ^ & * ( ) _ + {bksp}',
+        		' Q W E R T Y U I O P { } |',
+        		'{lock} A S D F G H J K L : " {accept}',
+        		'{shift} Z X C V B N M < > ? {shift}',
+        		'{cancel}  {space}  {cancel}'
+        	]
+        };        
+        
+        
+        jQuery.keyboard.language.fa = {
+        	language: '\u0641\u0627\u0631\u0633\u06cc (Farsi)',
+        	display: {
+        		'a'      : '\u2714:\u062a\u0623\u06cc\u06cc\u062f (Shift+Enter)',
+        		'accept' : '\u062a\u0623\u06cc\u06cc\u062f:\u062a\u0623\u06cc\u06cc\u062f (Shift+Enter)',
+        		'alt'    : 'Lng:Alternate Graphemes',
+        		'b'      : '\u2190:\u2b05 Backspace',
+        		'bksp'   : '\u2b05 Bksp:\u2b05 Backspace',
+        		'c'      : '\u2716:\u0627\u0646\u0635\u0631\u0627\u0641 (Esc)',
+        		'cancel' : '\u0627\u0646\u0635\u0631\u0627\u0641:\u0627\u0646\u0635\u0631\u0627\u0641 (Esc)',
+        		'clear'  : 'C:Clear',
+        		'combo'  : '\u00f6:Toggle Combo Keys',
+        		'dec'    : '.:Decimal',
+        		'e'      : '\u21b5:Enter',
+        		'enter'  : 'Enter:Enter',
+        		'lock'   : '\u21ea Lock:Caps Lock',
+        		's'      : '\u21e7:Shift',
+        		'shift'  : 'Shift:Shift',
+        		'sign'   : '\u00b1:Change Sign',
+        		'space'  : '&nbsp;:Space',
+        		't'      : '\u21e5:Tab',
+        		'tab'    : '\u21e5 Tab:Tab'
+        	},
+        	// Message added to the key title while hovering, if the mousewheel plugin exists
+        	wheelMessage: 'Use mousewheel to see other keys',
+        	rtl: true
+
+        };
+
+
+        
+  		$('.company_name').keyboard({
+          language: ['fa'],
+            // *** choose layout & positioning ***
+            // choose from 'qwerty', 'alpha',
+            // 'international', 'dvorak', 'num' or
+            // 'custom' (to use the customLayout below)
+            layout: ['Persian'],
+			autoAccept: true,
+        });
+  			$('.names').keyboard({
+          language: ['fa'],
+            // *** choose layout & positioning ***
+            // choose from 'qwerty', 'alpha',
+            // 'international', 'dvorak', 'num' or
+            // 'custom' (to use the customLayout below)
+            layout: ['Persian'],
+			autoAccept: true,
+        });
+		$('.rayanama').keyboard({
+          //language: ['fa'],
+            // *** choose layout & positioning ***
+            // choose from 'qwerty', 'alpha',
+            // 'international', 'dvorak', 'num' or
+            // 'custom' (to use the customLayout below)
+            //layout: ['Persian'],
+			autoAccept: true,
+			layout: 'custom',
+
+			customLayout: {
+
+				'default': [
+					'1 2 3 4 5 6 7 8 9 0',
+					'q w e r t y u i o p {bksp}',
+					'a s d f g h j k l {accept}',
+					'{s} z x c v b n m @ . {s}',
+					'{shift} {space} _ - {accept}'
+				],
+				'shift': [
+					'Q W E R T Y U I O P {bksp}',
+					'A S D F G H J K L {enter}',
+					'{s} Z X C V B N M @ . {s}',
+					'{meta1} {space} _ - {accept}'
+				],
+				'meta1': [
+					'1 2 3 4 5 6 7 8 9 0 {bksp}',
+					'` | { } % ^ * / \' {enter}',
+					'{meta2} $ & ~ # = + . {meta2}',
+					'{default} {space} ! ? {accept}'
+				],
+				'meta2': [
+					'[ ] { } \u2039 \u203a ^ * " , {bksp}',
+					'\\ | / < > $ \u00a3 \u00a5 \u2022 {enter}',
+					'{meta1} \u20ac & ~ # = + . {meta1}',
+					'{default} {space} ! ? {accept}'
+				]
+
+			}
+        });
+		$('.number').keyboard({
+			language: ['fa'],
+            // *** choose layout & positioning ***
+            // choose from 'qwerty', 'alpha',
+            // 'international', 'dvorak', 'num' or
+            // 'custom' (to use the customLayout below)
+            //layout: ['num'],
+			autoAccept: true,
+			layout: 'custom',
+
+			customLayout: {
+				'default': [
+					'7 8 9',
+					'4 5 6 ',
+					'1 2 3',
+					'{bksp} 0',//'{bksp} 0 {accept}',
+				]
+			}
+        });
+        
+		$('.tavalod').keyboard({
+			language: ['fa'],
+            // *** choose layout & positioning ***
+            // choose from 'qwerty', 'alpha',
+            // 'international', 'dvorak', 'num' or
+            // 'custom' (to use the customLayout below)
+			autoAccept: true,
+			layout: 'custom',
+
+			customLayout: {
+				'default': [
+					'7 8 9',
+					'4 5 6 ',
+					'1 2 3',
+					'{bksp} 0',//'{bksp} 0 {accept}',
+				]
+			}
+        });
+        
+		$('.codmelli').keyboard({
+          language: ['fa'],
+            // *** choose layout & positioning ***
+            // choose from 'qwerty', 'alpha',
+            // 'international', 'dvorak', 'num' or
+            // 'custom' (to use the customLayout below)
+            layout: ['Persian'],
+			autoAccept: true,
+        });
+        
+		$('.address').keyboard({
+			language: ['fa'],
+            // *** choose layout & positioning ***
+            // choose from 'qwerty', 'alpha',
+            // 'international', 'dvorak', 'num' or
+            // 'custom' (to use the customLayout below)
+            layout: ['Persian'],
+			autoAccept: true,
+        });
+        
+        
+        
+        
+        
+  		});
+  	</script>
+
+	<script>
+		
+		function init() {
+			document.addEventListener("deviceready", onDeviceReady, false);
+		//  scalePage_center(1150,".main_content",true);
+		
+			// scalePage_center(769,target=".main_content",true);
+			// var matrixRegex = /matrix\((-?\d*\.?\d+),\s*0,\s*0,\s*(-?\d*\.?\d+),\s*0,\s*0\)/,
+			// matches = $(".main_content").css("transform").match(matrixRegex);
+			// matches = matches[1]*1.3;
+			// jQuery(".continer").height(jQuery(".main_content").height()*matches);
+			// 
+
+
+			var mc = new Hammer(document.body);
+			mc.on("swiperight", function(ev) {
+				goto_home();
+				//if(ev.velocity>0.8){console.log(ev.type +" gesture detected.");}
+			});
+		}
+		$(document).ready(function() {
+			setTimeout(function(){
+				//$(".mypreload").html("");
+				$(".mypreload").css("display","none");
+				$('img').on('dragstart', function(event) { event.preventDefault();				});
+				$('a').on('dragstart', function(event) { event.preventDefault();				});
+			}, 600);
+			setTimeout(function(){
+				//alert($(".submit").focus());
+				//$("#focustest").click();
+				//$("#focustest").click();
+				$(".ui-keyboard.ui-widget-content.ui-widget.ui-corner-all.ui-helper-clearfix.ui-keyboard-has-focus").css("display","none");
+			}, 600);
+		});
+		function onDeviceReady() {
+			var networkState = navigator.connection.type;
+			if (networkState != Connection.NONE)
+			{
+				FastClick.attach(document.body);
+			}
+			else
+			{
+				navigator.notification.alert(
+					'شما برای مشاهده این صفحه، به اینترنت نیاز دارید',	// message
+					goto_home,			// callback
+					'اخطار',			// title
+					'تائید'				// buttonName
+				);
+			}
+			
+
+			
+
+			
+			if ( device.platform == 'Android' ){//Android,iOS,win7=WinCE,win8=Win32NT
+				document.addEventListener("backbutton", go_back, false);
+			}
+		}
+
+	</script>
+<style>
+.continer{
+	width:100%;
+	/*height:800px;*/
+	/*overflow:hidden;*/
+}
+.ui-widget-content {
+    border: 1px solid #666;
+    background: #8a8a9e !important;
+    color: #fff;
+}
+.ui-keyboard-preview{
+    top: 0 !important;
+    text-align: right;
+    margin-bottom: 10px !important;
+}
+.contact_us_input.center_first{
+  text-align: center;
+}
+.contact_us_input.right{
+  text-align: right
+}
+</style>
+	
+</head>
+<body onload="init();">
+	<span class="back_top" ><button class="top_submit" onclick="go_back();">برگشت</button></span>
+	<div id="ajax" class="mypreload">
+		<div style="z-index: 1000; border: medium none; margin: 0px; padding: 0px; width: 100%; height: 100%; top: 0px; left: 0px; background-color: #332958; opacity: 1; cursor: default; position: fixed;overflow:visible;" class="blockUI blockOverlay"></div>
+		<div style="z-index: 1011; position: fixed; padding: 0px; margin: 0px; width: 100%; top: 28%; left: 0%; text-align: center;border: medium none;overflow:visible;" class="blockUI blockMsg blockPage"><img src="images/preloader.gif"></div>
+		<div style="z-index: 1012; position: fixed; padding: 0px; margin: 0px; width: 100%; top: 50%; left: 0%; text-align: center;border: medium none;overflow:visible;height:500px;" class="blockUI blockMsg blockPage"><img src="images/loading.png" width="70%"><span class="back_padding" style="width:auto;"><button class="back_submit" onclick="go_back();">برگشت به صفحه قبل</button></span></div>
+	</div>
+<div class="continer">
+	<div class="main_content contact">
+		<img class="contactus_main_img" src="images/main_contactus.png">
+		<div class="contact_header cycle_header">
+			<div class="cycles"></div>	
+			<p>جهتِ ارتبا ط 
+گیــر ی جبهه
+فـــــر هنگی 
+انقـــلا ب با
+حضر تعــا لی   </p>
+			<div class="cycles"></div>	
+		</div>
+		<form name="enq" class="contact_us_form"  onsubmit="return validation();">
+			<input name="company_name" type="text" class="company_name contact_us_input center_first" placeholder="نا مِ مؤ سّسه">
+			<label class="right name"><img src="images/require.png"></label>
+			<input name="name" type="text" class="names contact_us_input right" placeholder="نا م و نا مِ خا نو اد گی ">
+			<label class="left rayaname"><img src="images/require.png"></label>
+			<input name="rayanama" type="text" class="rayanama contact_us_input left" placeholder="رایا نا مه">
+			<label class="right tell"><img src="images/require.png"></label>
+			<input name="tell"   type="text" class="number contact_us_input right" placeholder="تلفُنِ همـر اه">
+			<input name="tavalod"  type="text" class="tavalod contact_us_input left" placeholder="سال تولد">
+			<input name="codmelli"  type="text" class="codmelli contact_us_input right" placeholder="کُــدِ  ملّی">
+			<input name="address"   type="text" class="address contact_us_input left" placeholder="نِشــا نی">
+			<input class="submit"  name="submit" type="submit" value="">
+			<button class="fehrest" onclick="goto_home();" ></button>
+		</form>
+
+
+
+
+			<div class="dw_back cycle_header" id="focustest">
+				<div class="cycles"></div>	
+					<a class="backbtn" href="index.html"><img src="images/backbtn.png"></a>
+
+				<div class="cycles"></div>	
+			</div>	
+	</div>
+	
+</div>
+</body>
+</html>

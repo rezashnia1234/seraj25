@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>بسم الله الرحمن الرحیم</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+	
+	
+	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<link rel="stylesheet" type="text/css" href="css/font.css" />
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link href="map/leaflet.css" rel="stylesheet" />
+
+	<script src="js/jquery-1.11.3.min.js"></script>
+    <!--<script src="phonegap.js"></script>-->
+    <script src="js/fastclick.js"></script>
+    <script src="js/back_btn.js"></script>
+    <script src="js/main.js"></script>
+	<script src="map/leaflet.1.0.js"></script>
+	<script>
+		$(document).ready(function() {
+			setTimeout(function(){
+				$(".mypreload").html("");
+				//$('img').on('dragstart', function(event) { event.preventDefault();				});
+				//$('a').on('dragstart', function(event) { event.preventDefault();				});
+				//$('.main_content').on('dragstart', function(event) { event.preventDefault();				});
+				//$('.main_content *').on('dragstart', function(event) { event.preventDefault();				});
+				//$('.main_content div').on('dragstart', function(event) { event.preventDefault();				});
+			}, 600);
+		});
+	</script>
+	<style>
+		#map { height: 600px; }
+		.leaflet-control-attribution.leaflet-control{
+			display:none !important;
+		}
+		#map {
+		  border: 3px dashed #ffffff;
+		  border-radius: 20px;
+		  box-sizing: border-box;
+		  margin: 20px;
+		  outline: medium none;
+		}
+		.leaflet-container {
+		  background: #332958 none repeat scroll 0 0;
+		  outline: 0 none;
+		}
+		.backbtn {
+		  bottom: 0px;
+		  z-index: 2147483647;
+		}
+		.map_head{
+			top: 0px;
+			left: 0;
+			margin: auto;
+			position: absolute;
+			right: 0;
+			max-width: 200px;
+			width: 70%;
+			z-index: 2147483647;
+		}
+		.leaflet-popup-content {
+		  direction: rtl;
+		  text-align: right;
+		}
+	</style>
+</head>
+<body onload="init()">
+	<span class="back_top" ><button class="top_submit" onclick="go_back();">برگشت</button></span>
+	<div id="ajax" class="mypreload">
+		<div style="z-index: 1000; border: medium none; margin: 0px; padding: 0px; width: 100%; height: 100%; top: 0px; left: 0px; background-color: #332958; opacity: 1; cursor: default; position: fixed;overflow:visible;" class="blockUI blockOverlay"></div>
+		<div style="z-index: 1011; position: fixed; padding: 0px; margin: 0px; width: 100%; top: 28%; left: 0%; text-align: center;border: medium none;overflow:visible;" class="blockUI blockMsg blockPage"><img src="images/preloader.gif"></div>
+		<div style="z-index: 1012; position: fixed; padding: 0px; margin: 0px; width: 100%; top: 50%; left: 0%; text-align: center;border: medium none;overflow:visible;height:500px;" class="blockUI blockMsg blockPage"><img src="images/loading.png" width="70%"><span class="back_padding" style="width:auto;"><button class="back_submit" onclick="go_back();">برگشت به صفحه قبل</button></span></div>
+	</div>
+
+	<!--<img class="map_head" src="images/map_head.png">-->
+	<!--<div class="get" style="font-size:20px;color:#ffffff;font-weight:bold;">get</div>-->
+	<a class="backbtn" href="map.html"><img src="images/backbtn.png"></a>
+	<div id="map"></div>
+	<script>
+	function init() {
+		winH = $(window).height();
+		$("#map").css("height",winH-40-12);
+	}
+	var map = L.map('map', {
+	  minZoom: 1,
+	  maxZoom: 4,
+	  center: [0, 0],
+	  zoom: 2,
+	  crs: L.CRS.Simple
+	});
+
+	// dimensions of the image
+	var w = 3840,
+		h = 1200,
+		url = 'map/it.png';
+
+	// calculate the edges of the image, in coordinate space
+	var southWest = map.unproject([0, h], map.getMaxZoom()-1);
+	var northEast = map.unproject([w, 0], map.getMaxZoom()-1);
+	var bounds = new L.LatLngBounds(southWest, northEast);
+
+	// add the image overlay, 
+	// so that it covers the entire map
+	L.imageOverlay(url, bounds).addTo(map);
+
+	// tell leaflet that the map is exactly as big as the image
+	map.setMaxBounds(bounds);
+	
+	//var m = {x: 3840, y: 1200};
+	var m = {x: 7680, y: 2400};
+	//var marker = L.marker(map.unproject([m.x, m.y], map.getMaxZoom())).addTo(map).bindPopup("786").openPopup();
+	
+	var icon_style_favorites_new = L.Icon.extend({
+		options: {
+			iconSize:     [25, 41], // size of the icon
+			iconAnchor:   [12,41], // point of the icon which will correspond to marker's location
+			popupAnchor:  [0, -41], // point from which the popup should open relative to the iconAnchor
+			shadowSize:   [41, 41],
+			shadowAnchor: [11, 39]
+		}
+	});
+	
+	new_favorite_marker_icon	= new icon_style_favorites_new({iconUrl: 'map/images/map-icon/marker-icon.png',iconRetinaUrl: 'map/images/map-icon/marker-icon@2x.png',shadowUrl: 'map/images/map-icon/marker-shadow.png',});
+	//new_favorite_marker = L.marker(map.getCenter(), {icon: new_favorite_marker_icon,setZIndexOffset: 1000,draggable:true}).addTo(map).bindPopup("لطفا این مارکر را در موقعیت دلخواه قرار دهید.").openPopup();
+	setTimeout(function(){
+		//var fx = new L.PosAnimation();
+		//fx.run(el, [300, 500], 0.5);
+		//map.panTo(e.layer.getLatLng());
+		//map.panTo([800, 640]);
+		map.panTo([-75.5,297.75]);
+		
+		//new_favorite_marker = L.marker(map.getCenter(), {icon: new_favorite_marker_icon,setZIndexOffset: 1000,draggable:true}).addTo(map).bindPopup("لطفا این مارکر را در موقعیت دلخواه قرار دهید.").openPopup().on('click', function(e){alert(this.getLatLng());});
+		//new_favorite_marker = L.marker(map.getCenter(), {icon: new_favorite_marker_icon,setZIndexOffset: 1000,draggable:true}).addTo(map).bindPopup("لطفا این مارکر را در موقعیت دلخواه قرار دهید.").openPopup().on('click', onClick);
+		//new_favorite_marker = L.marker(map.getCenter(), {icon: new_favorite_marker_icon,setZIndexOffset: 1000,draggable:true}).addTo(map).bindPopup("لطفا این مارکر را در موقعیت دلخواه قرار دهید.").openPopup().on('dragend', function(e){this.setPopupContent("" + this.getLatLng());});
+		function onClick(e) {
+			alert(this.getLatLng());
+		}
+		
+		
+		$(".get").click(function(){
+			map.panTo(new_favorite_marker.getLatLng());
+			alert("[" + new_favorite_marker.getLatLng().lat + "," + new_favorite_marker.getLatLng().lng + "]");
+		});
+		
+
+		//map.featureLayer.on('click', function(e) {
+		//	map.panTo(e.layer.getLatLng());
+		//});
+	}, 600);
+			
+	//map.setView([800, 640], 3);
+	//map.mapPane([800,200]);
+
+	</script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1" />
+
+    <title>بسم الله الرحمن الرحیم</title>
+<!--	
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<link rel="stylesheet" type="text/css" href="css/default.css" />
+	<link rel="stylesheet" type="text/css" href="css/font.css" />
+	<link rel="stylesheet" type="text/css" href="css/component.css" />
+-->
+    <link rel="stylesheet" type="text/css" href="css/reset.css">
+
+	<script src="js/jquery-1.11.3.min.js"></script>
+	<script src="js/console.log.js"></script>
+    <script src="js/fastclick.js"></script>
+    <script src="js/jquery.md5.js"></script>
+    <script src="js/back_btn.js"></script>
+    <script src="js/query-string.js"></script>
+    <script src="js/hammer.min.js"></script>
+
+	<script>
+		function init() {		
+			console.log('SMGROUP ::::::::::::::::::::::::::::::::::::    start init()');
+			document.addEventListener("deviceready", onDeviceReady, false);
+			//scalePage_center(2048,"#Menu_table",true);
+			$('.container').width(($('body').height()) - 100);
+			var value =  ($('body').height() - $('.container').height())- 200;
+			$('.container').css("top",value);			
+			
+			
+			var mc = new Hammer(document.body);
+			mc.on("swiperight", function(ev) {
+				goto_home();
+				//if(ev.velocity>0.8){console.log(ev.type +" gesture detected.");}
+			});
+			//onDeviceReady();
+		}
+
+
+		function onDeviceReady() {
+			//FastClick.attach(document.getElementById('container'));
+			FastClick.attach(document.body);
+			
+			if ( device.platform == 'Android' ){//Android,iOS,win7=WinCE,win8=Win32NT
+				document.addEventListener("backbutton", goto_home, false);
+			}
+
+			
+		}
+
+		$(window).load(function() {
+			winH = $(window).height();
+			box_Object = $("#Menu_table");
+			boxH = box_Object.height();
+			delta = 0;
+			if(winH>boxH)
+			{
+				delta = (winH - boxH)/2;
+			}
+			if(delta>65)
+				delta = delta *0.9;
+			box_Object.css("top",delta);
+			//alert(delta);
+			//box_back = $("#back_btn");
+			//back_H =delta+boxH;//box_Object.height();
+			//back_H =back_H*1.2;
+			//box_back.css("top",back_H);
+		});
+
+		$(document).ready(function() {
+			setTimeout(function(){
+				$(".mypreload").html("");
+				$('img').on('dragstart', function(event) { event.preventDefault();				});
+				$('a').on('dragstart', function(event) { event.preventDefault();				});
+			}, 600);
+		});
+
+	</script>	
+
+		
+		
+		
+<style>
+body{
+	position: absolute;
+left: 0;
+width: 100%;
+height: 100%
+	
+}	
+	
+*{padding:0 !important;margin:0 !important;}
+body{background:#322958;overflow-x: hidden;}
+.btn {
+  cursor: pointer;
+  height: 10%;
+  position: absolute;
+  width: 19%;
+  display:block;
+  background-color:rgba(255,255,255,0.0);
+}
+.btn1 {left: 10%;top: 5%;}
+.btn2 {left: 72%;top: 7%;}
+.btn3 {left: 7%;top: 79%;width: 29%;}
+.btn4 {left: 69%;top: 88%;width: 20%;}
+#Menu_table000
+{
+	position:absolute;
+	left:0;
+	top:0;
+	right:0;
+	bottom:0;
+	margin:auto;
+}
+#back_btn{
+	position: absolute;
+	    left: 0;
+	    bottom: 10px;
+	    width: 100%;
+	    max-width: 830px;
+	    right: 0;
+	    margin: auto !important;
+}
+div#container {
+    max-width: 860px;
+    margin: 0 auto !important;
+}
+*{
+    -webkit-touch-callout: none !important;
+    -webkit-user-select: none !important;
+    -khtml-user-select: none !important;
+    -moz-user-select: none !important;
+    -ms-user-select: none !important;
+    -o-user-select: none !important;
+    user-select: none !important;
+	outline-style:none !important;
+}
+div#Menu_table {
+		top: 25.15px !important;
+}	
+@media (max-width: 700px) {
+	body{overflow-x: hidden;}
+	.backimage {
+		width: 116%;
+		margin-left: -7% !important;
+	}
+	.btn {
+	  width: 26%;
+	  height:12%;
+	}
+
+	.btn1 {left: 3%;top: 2%;}
+	.btn2 {left: 72%;top: 4%;}
+	.btn3 {left: 1%;top: 79%;width: 32%;}
+	.btn4 {left: 69%;top: 88%;width: 29%;}
+}
+</style>
+<style>
+span.back_top {
+	position:fixed;
+	top:10px;
+	left:10px;
+	
+  background: #4eb6aa none repeat scroll 0 0;
+  border-radius: 162px;
+  box-sizing: border-box;
+  display: block;
+  height:80px;
+  margin: 0 auto 0;
+  padding: 4px;
+  width: 80px;
+  z-index: 99999999999999999;
+  text-align:center;
+}
+button.top_submit {
+    border: 2px dashed #2a3457;
+    background: transparent;
+    color: #332958;
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+    font-size: 15px;
+	line-height: 38px;
+	padding-top:2px;
+	border-radius: 162px;
+	margin:0 auto;
+	text-align:center;
+}
+</style>	
+</head>
+<body onload="init();" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" id="body">
+	<span class="back_top" ><button class="top_submit" onclick="go_back();">برگشت</button></span>
+	<div id="ajax" class="mypreload">
+		<div style="z-index: 1000; border: medium none; margin: 0px; padding: 0px; width: 100%; height: 100%; top: 0px; left: 0px; background-color: #332958; opacity: 1; cursor: default; position: fixed;overflow:visible;" class="blockUI blockOverlay"></div>
+		<div style="z-index: 1011; position: fixed; padding: 0px; margin: 0px; width: 100%; top: 28%; left: 0%; text-align: center;border: medium none;overflow:visible;" class="blockUI blockMsg blockPage"><img src="images/preloader.gif"></div>
+		<div style="z-index: 1012; position: fixed; padding: 0px; margin: 0px; width: 100%; top: 50%; left: 0%; text-align: center;border: medium none;overflow:visible;height:500px;" class="blockUI blockMsg blockPage"><img src="images/loading.png" width="70%"></div>
+	</div>
+	<div class="container " id="container" >
+				<!--
+				<div id="small" class="a1" onclick="openURL('http://app.irdmfestival.ir',false,false);" >
+					<span id="text"><p>بسم الله الرحمن الرحیم</p></span>
+				</div>
+				<div onclick="StartScan();">00000000000000000000000000000000</div>
+				-->
+				<div id="Menu_table" style="width:100%;" >
+					<div id="Menu_btn" style="width:100%;" >
+						<img src="images/hamid/ghorfe.png" width="100%" alt="" class="backimage">
+						<a class="btn btn1" href="#map_in_it.html?type=it" onclick="alert('این بخش در حال آماده سازی می باشد.');"></a><!--product-->
+						<a class="btn btn2" href="#map_in_online.html?type=online" onclick="alert('این بخش در حال آماده سازی می باشد.');"></a><!--product-->
+						<a class="btn btn3" href="#map_in_mobile.html?type=mobile" onclick="alert('این بخش در حال آماده سازی می باشد.');"></a><!--product-->
+						<a class="btn btn4" href="#map_in_game.html?type=game" onclick="alert('این بخش در حال آماده سازی می باشد.');"></a><!--product-->
+					</div>
+				</div>
+		</div>
+		<div id="back_btn"><a href="index.html"><img src="images/hamid/back.png" width="100%" alt=""></a></div>
+</body>
+</html>

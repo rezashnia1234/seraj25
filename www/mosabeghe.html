@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title></title>
+
+	<link rel="stylesheet" type="text/css" href="css/reset.css">
+	<link rel="stylesheet" type="text/css" href="css/font.css" />
+	<link rel="stylesheet" type="text/css" href="css/progress.bar.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+
+	<script src="js/jquery-1.11.3.min.js"></script>
+    <script src="phonegap.js"></script>
+    <script src="js/fastclick.js"></script>
+	<script src="js/scale-with.js"></script>
+    <script src="js/back_btn.js"></script>
+    <script src="js/validation.js"></script>
+    <script src="js/hammer.min.js"></script>
+    <script src="js/main.js"></script>
+
+	<script>
+
+		function init() {
+			document.addEventListener("deviceready", onDeviceReady, false);
+
+			//scalePage_center(769,target=".main_content",true);
+			//var matrixRegex = /matrix\((-?\d*\.?\d+),\s*0,\s*0,\s*(-?\d*\.?\d+),\s*0,\s*0\)/,
+			//matches = $(".main_content").css("transform").match(matrixRegex);
+			//matches = matches[1]*1.3;
+			//jQuery(".continer").height(jQuery(".main_content").height()*matches);
+
+			var mc = new Hammer(document.body);
+			mc.on("swiperight", function(ev) {
+				goto_home();
+			});
+		}
+		$(document).ready(function() {
+			setTimeout(function(){
+				$(".mypreload").html("");
+				$('img').on('dragstart', function(event) { event.preventDefault();				});
+				$('a').on('dragstart', function(event) { event.preventDefault();				});
+			}, 600);
+		});
+		function onDeviceReady() {
+			window.sessionStorage.setItem('send_image_path',"");
+			var networkState = navigator.connection.type;
+			if (networkState != Connection.NONE)
+			{
+				FastClick.attach(document.body);
+				if(window.localStorage.getItem('mobile') == null)
+				{
+					navigator.notification.alert(
+						'شما برای شرکت در مسابقه ، ابتدا باید در برنامه ثبت نام نمایید.',	// message
+						goto_register,			// callback
+						'اخطار',			// title
+						'تائید'				// buttonName
+					);
+				}
+				else
+				{
+					
+					
+				}
+			}
+			else
+			{
+				navigator.notification.alert(
+					'شما برای مشاهده این صفحه، به اینترنت نیاز دارید',	// message
+					goto_home,			// callback
+					'اخطار',			// title
+					'تائید'				// buttonName
+				);
+			}
+			
+
+			
+
+			
+			if ( device.platform == 'Android' ){//Android,iOS,win7=WinCE,win8=Win32NT
+				document.addEventListener("backbutton", goto_home, false);
+			}
+		}
+		
+		
+		
+		function get_image() {
+			window.imagePicker.getPictures(
+				function(results) {
+					for (var i = 0; i < results.length; i++) {
+						console.log('Image URI: ' + results[i]);
+						//alert('Image URI: ' + results[i]);
+						window.sessionStorage.setItem('send_image_path',results[i]);
+						//send_image(results[i]);
+						setTimeout(function(){
+							navigator.notification.confirm(
+								'آیا تصویر انتخاب شده را برای شرکت در مسابقه ارسال نماییم؟', // message
+								onConfirm,				// callback to invoke with index of button pressed
+								'',						// title
+								['بله','خیر']			// buttonLabels
+							);
+						}, 600);
+						function onConfirm(buttonIndex) {
+							//alert(buttonIndex);
+							if(buttonIndex==1)
+							{
+								//alert("1");
+								if(window.sessionStorage.getItem('send_image_path') != "")
+								{
+									//alert("2" + window.sessionStorage.getItem('send_image_path'));
+									send_image(window.sessionStorage.getItem('send_image_path'));
+								}
+							}
+							else
+							{
+								window.sessionStorage.setItem('send_image_path',"");
+							}
+						}
+					}
+				}, function (error) {
+					console.log('Error: ' + error);
+					//alert('Error: ' + error);
+				}, {
+					maximumImagesCount: 1,
+					width: 800,
+					quality:75
+				}
+			);
+		}
+		function send_image(file) {
+//alert('Image URI: ' + file);
+
+			console.log("start_download check internet");
+			networkState = navigator.connection.type;
+			if (networkState == Connection.NONE) {
+				console.log("start_download : NO internet");
+				navigator.notification.alert(
+					'شما برای اینکار به اینترنت نیاز دارید',  // message
+					goto_home,         // callback
+					'اخطار',            // title
+					'تائید'                  // buttonName
+				);
+			}
+			else{
+				console.log("start_download : we have internet");
+
+//alert("start_download URL: " + file);
+				console.log("start_download URL: " + file);
+				
+				var FileTransfer_OBJ = new FileTransfer();
+				
+				$('.progress-bar-parent').css("display","block");
+//alert("1");
+				FileTransfer_OBJ.onprogress = function(progressEvent) {
+					if (progressEvent.lengthComputable) {
+						var perc = Math.floor(progressEvent.loaded / progressEvent.total * 100);
+						$('#status').html(perc + "% بارگذاری شد...");
+						$('.progress-bar-percent').css('width',perc + "%");
+						//progress_bar_element.css('width',perc);
+					} else {
+						$('#status').html($('#status').html() + ".");
+						//progress_bar_element.css('width',progress_bar_element.width()+1);
+						$('.progress-bar-percent').css('width',$('.progress-bar-parent').find('span').width()+1);
+					}
+				};
+//alert("2");
+				var uri = encodeURI("http://app.irdmfestival.ir/news/mosabeghe.php");
+				function win(r) {
+					console.log("Code = " + r.responseCode);
+					console.log("Response = " + r.response);
+					console.log("Sent = " + r.bytesSent);
+					alert("Response = " + r.response);
+					
+					$('#status').html("");
+					$('.progress-bar-parent').find('span').css('width','2%');
+					console.log("start_download : done");
+					navigator.notification.alert(
+						'تصویر مورد نظر شما با موفقیت بارگذاری شد و بعد از پایان مسابقه ، توسط داوران بررسی خواهد شد.',  // message
+						goto_home,         // callback
+						'توجه',            // title
+						'تائید'                  // buttonName
+					);
+					$('.progress-bar-parent').css("display","none");
+				}
+//alert("3");
+				function fail(error) {
+					//alert("An error has occurred: Code = " + error.code);
+					//console.log("upload error source " + error.source);
+					//console.log("upload error target " + error.target);
+					alert(JSON.stringify(error));
+					navigator.notification.alert(
+						'خطا در بارگذاری فایل',  // message
+						goto_home,         // callback
+						'اخطار',            // title
+						'تائید'                  // buttonName
+					);
+					$('.progress-bar-parent').find('span').css('width','2%');
+					$('.progress-bar-percent').css('width',"");
+					$('.progress-bar-parent').css("display","none");
+				}
+//alert("4");
+				var options = new FileUploadOptions();
+				var params = {};
+				params.mobile = window.localStorage.getItem('mobile');
+				params.deviceid = window.localStorage.getItem('uuid');
+				options.params = params;
+				
+				
+				FileTransfer_OBJ.upload(file, uri, win, fail, options);
+//alert("5");
+				$("#abort").click( function(i) {
+					FileTransfer_OBJ.abort();
+					$('.progress-bar-parent').find('span').css('width','2%');
+					$('.progress-bar-percent').css('width',"");
+					$('.progress-bar-parent').css("display","none");
+					window.location.href = "index.html";
+				});
+				
+			}
+		
+		}
+		
+	</script>
+
+
+
+ </head>
+<body onload="init();">
+	<div id="ajax" class="mypreload">
+		<div style="z-index: 1000; border: medium none; margin: 0px; padding: 0px; width: 100%; height: 100%; top: 0px; left: 0px; background-color: #332958; opacity: 1; cursor: default; position: fixed;overflow:visible;" class="blockUI blockOverlay"></div>
+		<div style="z-index: 1011; position: fixed; padding: 0px; margin: 0px; width: 100%; top: 28%; left: 0%; text-align: center;border: medium none;overflow:visible;" class="blockUI blockMsg blockPage"><img src="images/preloader.gif"></div>
+		<div style="z-index: 1012; position: fixed; padding: 0px; margin: 0px; width: 100%; top: 50%; left: 0%; text-align: center;border: medium none;overflow:visible;height:500px;" class="blockUI blockMsg blockPage"><img src="images/loading.png" width="70%"></div>
+	</div>
+	<div class="progress-bar-parent">
+		<div class="progress-bar green glow">
+			<div id="notic">در حال بارگذاری تصویر مورد نظر شما</div>
+			<span class="progress-bar-percent" style="width: 2%"></span>
+			<div id="status"></div><br/>
+			<input type="button" id="abort" value="انصراف" />
+		</div>
+	</div>
+<style>
+button.nazar_submit {
+  font-size: 18px;
+  line-height: 35px;
+}
+span.submit_padding {
+  background: #4eb6aa none repeat scroll 0 0;
+  border-radius: 6px;
+  box-sizing: border-box;
+  display: inline-block;
+  font-size: 14px;
+  height: 90px;
+  margin-top: 20px;
+  
+  max-width: 407px;
+  width: 100%;
+}
+.photo_hader {
+  margin-bottom: 36px;
+  top: 23px;
+}
+@media (max-width: 550px) {
+	.akhbar_hole{margin-top:-10px;}
+}
+@media (max-width: 450px) {
+	.akhbar_hole{margin-top:-20px;}
+}
+</style>
+	
+	<div class="akhbar_hole main_content">
+		<div class="photo_hader">
+			<div class="header_right about"></div>
+			<div class="header_left about"></div>
+		</div>
+		<div class="akhbar_content_main about" style="margin-top:-45px;">
+			<div class="about_scroll" style="direction:rtl;text-align:justify;">
+				<p>
+					<br/>
+					کاربران گرامی با ارسال عکسهایتان به دبیرخانه نمایشگاه و با نظر نهایی
+					هیات داوران ، برنده جوایز ارزنده از سومین نمایشگاه رسانه های دیجیتال 
+					انقلاب اسلامی  در مراسم اختتامیه باشید.
+					<br/>
+					<div style="width:100%;text-align:center;">
+						<span class="submit_padding"> <button class="nazar_submit" onclick="get_image();">انتخاب و ارسال تصویر از گالری تصاویر دستگاه</button></span>
+					</div>
+					<br/><br/>
+				</p>
+			</div>
+
+			<a class="backbtn" href="index.html"><img src="images/backbtn.png"></a>
+		</div>
+
+	</div>
+<br/>
+
+
+</body>
+</html>
